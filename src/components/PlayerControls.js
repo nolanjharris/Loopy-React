@@ -25,7 +25,7 @@ function PlayerControls(props) {
           </option>
         </select>
         <button
-          onClick={() => props.setStart(!props.start)}
+          onClick={() => props.setStart(true)}
           className="btn"
           id="playButton"
         >
@@ -40,7 +40,12 @@ function PlayerControls(props) {
             <path d="M0 0h24v24H0z" fill="none" />
           </svg>
         </button>
-        <button href="" className="btn" id="stopButton">
+        <button
+          href=""
+          className="btn"
+          id="stopButton"
+          onClick={() => props.setStart(false)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#fff"
