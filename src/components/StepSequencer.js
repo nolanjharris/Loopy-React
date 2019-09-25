@@ -67,7 +67,25 @@ function StepSequencer(props) {
     index++;
   };
 
+  // useEffect(() => {
+  //   Tone.Transport.scheduleRepeat(() => {
+  //     // debugger;
+  //     let step = index % 16;
+  //     // let bpmCount = 30000 / tempo;
+  //     for (let i = 0; i < noteSelect.length; i++) {
+  //       let note = drums[i];
+  //       console.log(i, noteSelect);
+  //       if (noteSelect[i][step] === 1) {
+  //         note.start();
+  //       }
+  //     }
+  //   }, "8n");
+  //   // drums[0].start();
+  //   index++;
+  // }, [noteSelect]);
+
   useEffect(() => {
+    Tone.Transport.clear();
     Tone.Transport.scheduleRepeat(() => {
       // debugger;
       let step = index % 16;
@@ -79,17 +97,11 @@ function StepSequencer(props) {
           note.start();
         }
       }
+      index++;
     }, "8n");
-    // drums[0].start();
-    // index++;
-  }, [index]);
-
-  useEffect(() => {
     if (start) {
       Tone.Transport.start();
-      index++;
       // drums[0].start();
-      console.log(index);
     } else {
       Tone.Transport.stop();
       index = 0;
