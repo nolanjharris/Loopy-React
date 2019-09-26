@@ -7,16 +7,6 @@ document.documentElement.addEventListener("mousedown", () => {
   if (Tone.context.state !== "running") Tone.context.resume();
 });
 
-const initialNoteState = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
-
 const drums = [
   new Tone.Player("./drums/snare.wav").toMaster(),
   new Tone.Player("./drums/clap.wav").toMaster(),
@@ -28,6 +18,15 @@ const drums = [
 ];
 
 function StepSequencer(props) {
+  const initialNoteState = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ];
   drums.forEach(drum => drum.toMaster());
   const [noteCount, setNoteCount] = useState(16);
   const [noteSelect, setNoteSelect] = useState(initialNoteState);
@@ -38,19 +37,19 @@ function StepSequencer(props) {
   useEffect(() => {
     let index = 0;
     Tone.Transport.cancel();
-    Tone.Transport.scheduleRepeat(time => {
-      let step = index % 16;
-      // let bpmCount = 30000 / tempo;
-      for (let i = 0; i < noteSelect.length; i++) {
-        let note = drums[i];
-        console.log(step, noteSelect);
-        if (noteSelect[i][step] === 1) {
-          note.start();
-        }
-      }
-      index++;
-    }, "8n");
     if (start) {
+      Tone.Transport.scheduleRepeat(time => {
+        let step = index % 16;
+        // let bpmCount = 30000 / tempo;
+        for (let i = 0; i < noteSelect.length; i++) {
+          let note = drums[i];
+          console.log(step, noteSelect);
+          if (noteSelect[i][step] === 1) {
+            note.start();
+          }
+        }
+        index++;
+      }, "8n");
       Tone.Transport.start();
     } else {
       Tone.Transport.stop();
@@ -68,7 +67,6 @@ function StepSequencer(props) {
 
   const resetBeatToInitialState = () => {
     setNoteSelect(initialNoteState);
-    console.log("huh");
   };
 
   return (
