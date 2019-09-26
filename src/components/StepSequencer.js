@@ -37,13 +37,13 @@ function StepSequencer(props) {
 
   useEffect(() => {
     let index = 0;
-    Tone.Transport.clear();
-    Tone.Transport.scheduleRepeat(() => {
+    Tone.Transport.cancel();
+    Tone.Transport.scheduleRepeat(time => {
       let step = index % 16;
       // let bpmCount = 30000 / tempo;
       for (let i = 0; i < noteSelect.length; i++) {
         let note = drums[i];
-        console.log(i, noteSelect);
+        console.log(step, noteSelect);
         if (noteSelect[i][step] === 1) {
           note.start();
         }
@@ -66,6 +66,11 @@ function StepSequencer(props) {
     setNoteSelect(beat);
   };
 
+  const resetBeatToInitialState = () => {
+    setNoteSelect(initialNoteState);
+    console.log("huh");
+  };
+
   return (
     <div id="step-sequencer">
       <PlayerControls
@@ -74,6 +79,7 @@ function StepSequencer(props) {
         setNoteCount={setNoteCount}
         tempo={tempo}
         setTempo={setTempo}
+        clearAll={resetBeatToInitialState}
       />
       <PlayerGrid
         noteCount={noteCount}

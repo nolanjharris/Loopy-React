@@ -57,7 +57,12 @@ function PlayerControls(props) {
             <path d="M6 6h12v12H6z" />
           </svg>
         </button>
-        <button href="" className="btn" id="clearButton">
+        <button
+          href=""
+          className="btn"
+          id="clearButton"
+          onClick={props.clearAll}
+        >
           Clear
         </button>
       </div>
